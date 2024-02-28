@@ -1,14 +1,19 @@
 name: Flutter action
-on:
-  push:
-    branches:
-      - main
+on: [push]
 jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: flutter build windows
+      - name: Build artifact
+        run: flutter build windows
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: namer_app.exe
+          path: build\windows\x64\runner\Release\namer_app.exe
